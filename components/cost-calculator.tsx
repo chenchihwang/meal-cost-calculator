@@ -14,6 +14,7 @@ export function CostCalculator() {
 
   // Calculate break-even C_out*
   // Formula: C_out* = C_home + (T_home - T_out) * w
+  // Times are in minutes, so convert to hours by dividing by 60
   const calculateBreakEven = () => {
     const cHomeNum = Number.parseFloat(cHome)
     const tHomeNum = Number.parseFloat(tHome)
@@ -24,7 +25,8 @@ export function CostCalculator() {
       return null
     }
 
-    return cHomeNum + (tHomeNum - tOutNum) * wageNum
+    // Convert minutes to hours: (minutes / 60) * wage
+    return cHomeNum + ((tHomeNum - tOutNum) / 60) * wageNum
   }
 
   const breakEvenCost = calculateBreakEven()
@@ -113,14 +115,14 @@ export function CostCalculator() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="t-home" className="text-base">
-                    Time to Cook at Home (hours)
+                    Time to Cook at Home (minutes)
                   </Label>
                   <Input
                     id="t-home"
                     type="number"
-                    step="0.1"
+                    step="1"
                     min="0"
-                    placeholder="0.0"
+                    placeholder="0"
                     value={tHome}
                     onChange={(e) => setTHome(e.target.value)}
                     className="text-base"
@@ -129,14 +131,14 @@ export function CostCalculator() {
 
                 <div className="space-y-2">
                   <Label htmlFor="t-out" className="text-base">
-                    Time to Eat Out (hours)
+                    Time to Eat Out (minutes)
                   </Label>
                   <Input
                     id="t-out"
                     type="number"
-                    step="0.1"
+                    step="1"
                     min="0"
-                    placeholder="0.0"
+                    placeholder="0"
                     value={tOut}
                     onChange={(e) => setTOut(e.target.value)}
                     className="text-base"

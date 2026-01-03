@@ -200,25 +200,79 @@ export function CostCalculator() {
           </CardContent>
         </Card>
 
-        {/* Lorem Ipsum Section */}
+        {/* Explanation Section */}
         <div className="space-y-4 rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
           <h2 className="text-xl font-semibold">How This Calculator Works</h2>
-          <div className="space-y-3 text-muted-foreground leading-relaxed">
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-              ea commodo consequat.
-            </p>
-            <p>
-              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-              Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-              laborum.
-            </p>
-            <p>
-              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam
-              rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-              explicabo.
-            </p>
+          <div className="space-y-4 text-muted-foreground leading-relaxed">
+            <div className="space-y-2">
+              <h3 className="text-base font-semibold text-foreground">The Core Concept</h3>
+              <p>
+                This calculator treats each meal as having both a <strong className="text-foreground">money cost</strong> and a{" "}
+                <strong className="text-foreground">time cost</strong>. To make the optimal decision, we compare the total cost
+                (money + value of time) for both options.
+              </p>
+              <p>
+                Eating out is mathematically better when the total cost of eating out is less than or equal to the total cost
+                of cooking at home:
+              </p>
+              <div className="rounded-md bg-muted p-3 font-mono text-sm">
+                C<sub>out</sub> + w × T<sub>out</sub> ≤ C<sub>home</sub> + w × T<sub>home</sub>
+              </div>
+              <p className="text-xs">
+                Where w is your hourly wage, C is the money cost, and T is the time cost (in minutes, converted to hours).
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="text-base font-semibold text-foreground">The Break-Even Formula</h3>
+              <p>
+                The calculator solves for the <strong className="text-foreground">break-even price</strong> (C<sub>out</sub>*) you can pay
+                to make eating out optimal:
+              </p>
+              <div className="rounded-md bg-muted p-3 font-mono text-sm">
+                C<sub>out</sub>* = C<sub>home</sub> + w × (T<sub>home</sub> - T<sub>out</sub>) / 60
+              </div>
+              <p>
+                If your actual eating out cost is less than or equal to this break-even price, eating out is the better choice.
+                Otherwise, cooking at home is more optimal.
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="text-base font-semibold text-foreground">Intuition & Sign Checks</h3>
+              <ul className="ml-4 list-disc space-y-2">
+                <li>
+                  <strong className="text-foreground">If eating out saves time</strong> (T<sub>out</sub> &lt; T<sub>home</sub>):
+                  The break-even price will be <em>higher</em> than your home cooking cost. The faster eating out is, and the
+                  higher your wage, the more extra money you can afford to pay for the convenience.
+                </li>
+                <li>
+                  <strong className="text-foreground">If eating out takes longer</strong> (T<sub>out</sub> &gt; T<sub>home</sub>):
+                  The break-even price will be <em>lower</em> than your home cooking cost. Eating out must be cheaper to justify
+                  the extra time spent.
+                </li>
+                <li>
+                  <strong className="text-foreground">If times are equal</strong> (T<sub>out</sub> = T<sub>home</sub>): The decision
+                  reduces to comparing money only—eat out if it costs less than cooking at home.
+                </li>
+              </ul>
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="text-base font-semibold text-foreground">Example</h3>
+              <p>Let's say:</p>
+              <ul className="ml-4 list-disc space-y-1 text-sm">
+                <li>Cooking at home: $5 per meal, 60 minutes</li>
+                <li>Eating out: 30 minutes (faster!)</li>
+                <li>Your wage: $30/hour</li>
+              </ul>
+              <p className="text-sm">
+                Break-even price = $5 + $30 × (60 - 30) / 60 = $5 + $15 = <strong className="text-foreground">$20</strong>
+              </p>
+              <p className="text-sm">
+                So if you can eat out for $20 or less, eating out is optimal. The time saved is worth the extra cost!
+              </p>
+            </div>
           </div>
         </div>
       </div>

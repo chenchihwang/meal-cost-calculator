@@ -257,7 +257,8 @@ export function CostCalculator() {
                   <p className="font-medium text-foreground">Hourly Wage ($/hour)</p>
                   <p className="text-sm">
                     Your hourly wage rate. This represents the value of your time. If you're salaried, divide your annual
-                    salary by the number of hours you work per year.
+                    salary by the number of hours you work per year. I also prefer to use my post tax hourly wage rate for 
+                    a more representative value of my time, but you can do whatever!
                   </p>
                 </div>
               </div>

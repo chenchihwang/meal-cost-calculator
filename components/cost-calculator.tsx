@@ -200,6 +200,129 @@ export function CostCalculator() {
           </CardContent>
         </Card>
 
+        {/* How to Use Section */}
+        <div className="space-y-4 rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
+          <h2 className="text-xl font-semibold">How to Use This Calculator</h2>
+          <div className="space-y-4 text-muted-foreground leading-relaxed">
+            <div className="space-y-2">
+              <h3 className="text-base font-semibold text-foreground">Understanding Each Input</h3>
+              
+              <div className="space-y-3">
+                <div>
+                  <p className="font-medium text-foreground">Cost to Cook at Home ($)</p>
+                  <p className="text-sm">
+                    Include the cost of groceries for the meal, plus any costs associated with obtaining those groceries:
+                  </p>
+                  <ul className="ml-4 list-disc space-y-1 text-sm">
+                    <li>Grocery store prices for ingredients</li>
+                    <li>Gas costs from driving to/from the grocery store</li>
+                    <li>Delivery fees if using grocery delivery services</li>
+                    <li>Any other transportation costs</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p className="font-medium text-foreground">Cost to Eat Out ($)</p>
+                  <p className="text-sm">Include all costs associated with eating out:</p>
+                  <ul className="ml-4 list-disc space-y-1 text-sm">
+                    <li>Price of the meal</li>
+                    <li>Tax</li>
+                    <li>Tip</li>
+                    <li>Cost of commute (gas, parking, public transit, etc.)</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p className="font-medium text-foreground">Time to Cook at Home (minutes)</p>
+                  <p className="text-sm">Account for all time spent:</p>
+                  <ul className="ml-4 list-disc space-y-1 text-sm">
+                    <li>Time required to cook the meal</li>
+                    <li>Time spent at the grocery store shopping</li>
+                    <li>Time to clean dishes and put food away</li>
+                    <li>Time to clean the kitchen</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p className="font-medium text-foreground">Time to Eat Out (minutes)</p>
+                  <p className="text-sm">Include all time spent:</p>
+                  <ul className="ml-4 list-disc space-y-1 text-sm">
+                    <li>Time at the restaurant (waiting + eating)</li>
+                    <li>Duration of commute to the restaurant</li>
+                    <li>Duration of commute from the restaurant back</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p className="font-medium text-foreground">Hourly Wage ($/hour)</p>
+                  <p className="text-sm">
+                    Your hourly wage rate. This represents the value of your time. If you're salaried, divide your annual
+                    salary by the number of hours you work per year.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="text-base font-semibold text-foreground">For Optimal Accuracy</h3>
+              <p className="text-sm">
+                The most accurate readings require you to account for <strong className="text-foreground">all</strong> associated costs
+                and time:
+              </p>
+              <ul className="ml-4 list-disc space-y-1 text-sm">
+                <li>
+                  <strong className="text-foreground">When cooking at home:</strong> Include commute time and cost to the grocery
+                  store, time spent shopping, dishwashing and cleanup time, and all grocery costs.
+                </li>
+                <li>
+                  <strong className="text-foreground">When eating out:</strong> Include commute time (to and from), commute costs
+                  (gas, parking, etc.), and the full meal cost including tax and tip.
+                </li>
+              </ul>
+            </div>
+
+            <div className="space-y-2">
+              <h3 className="text-base font-semibold text-foreground">Factors Not Accounted For</h3>
+              <p className="text-sm">
+                This is a simple heuristic-based calculator meant to be a quick reference when deciding whether to eat out or cook.
+                When I use this tool I personally do not account for:
+              </p>
+              <ul className="ml-4 list-disc space-y-1 text-sm">
+                <li>Time spent learning new recipes</li>
+                <li>Cost of cooking materials (oil, spices, condiments) that may be used across multiple meals</li>
+                <li>Decision fatigue from choosing what to cook</li>
+                <li>Nutritional value differences between eating out and cooking at home</li>
+                <li>Utility and enjoyment derived from either activity</li>
+              </ul>
+            </div>
+
+            <div className="space-y-2 rounded-md border-l-4 border-yellow-500 bg-yellow-500/10 p-3">
+              <h3 className="text-base font-semibold text-foreground">Important Disclaimer</h3>
+              <p className="text-sm">
+                This calculator assumes that your time would be better spent working to earn money and then buying the meal. However,
+                this model has limitations:
+              </p>
+              <ul className="ml-4 list-disc space-y-1 text-sm">
+                <li>
+                  The average workday is 8 hours, and many people are <strong className="text-foreground">salaried</strong>, meaning
+                  working more hours does not result in additional income.
+                </li>
+                <li>
+                  If you have fixed working hours and excess free time, the assumption that working more is more valuable than
+                  cooking may not hold true because you cannot work more.
+                </li>
+                <li>
+                  In such cases, you may have an abundance of time available to cook, making the "work more, eat out" model less
+                  applicable.
+                </li>
+              </ul>
+              <p className="mt-2 text-sm">
+                Use this calculator as a helpful heuristic, but consider your personal circumstances when making decisions.
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Explanation Section */}
         <div className="space-y-4 rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
           <h2 className="text-xl font-semibold">How This Calculator Works</h2>
@@ -273,6 +396,38 @@ export function CostCalculator() {
                 So if you can eat out for $20 or less, eating out is optimal. The time saved is worth the extra cost!
               </p>
             </div>
+          </div>
+        </div>
+
+        {/* Future Additions Section */}
+        <div className="space-y-4 rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
+          <h2 className="text-xl font-semibold">Future Additions to This Tool</h2>
+          <div className="space-y-3 text-muted-foreground leading-relaxed">
+            <p className="text-sm">
+              Planned features and improvements for this calculator:
+            </p>
+            <ul className="ml-4 list-disc space-y-2 text-sm">
+              <li>
+                <strong className="text-foreground">Automated meal cost estimation:</strong> Add an easy way to automatically check
+                the price of a meal. This would use a chatbot to reference recipes online, then check average grocery store prices
+                based on the user's IP address to get accurate prices based on their state/location.
+              </li>
+              <li>
+                <strong className="text-foreground">Automatic tax and tip calculation:</strong> Automatically account for tax (for
+                various states) and tip (based on time of day—morning to dinner). Tax rates and tip suggestions can be determined
+                automatically based on the user's IP address location.
+              </li>
+            </ul>
+            <p className="mt-4 text-sm">
+              Have a bright idea for improving this tool? Send suggestions to{" "}
+              <a
+                href="mailto:chentreehwang@gmail.com"
+                className="font-medium text-primary underline hover:text-primary/80"
+              >
+                chentreehwang@gmail.com
+              </a>
+              .
+            </p>
           </div>
         </div>
       </div>

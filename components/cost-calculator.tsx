@@ -11,22 +11,31 @@ export function CostCalculator() {
   const [tHome, setTHome] = useState<string>("")
   const [tOut, setTOut] = useState<string>("")
   const [wage, setWage] = useState<string>("")
+  const [servings, setServings] = useState<string>("1")
 
   // Calculate break-even C_out*
-  // Formula: C_out* = C_home + (T_home - T_out) * w
+  // Formula: C_out* = (C_home / N) + w × ((T_home / N) - T_out) / 60
+  // Where N is the number of servings from the cooking session
   // Times are in minutes, so convert to hours by dividing by 60
   const calculateBreakEven = () => {
     const cHomeNum = Number.parseFloat(cHome)
     const tHomeNum = Number.parseFloat(tHome)
     const tOutNum = Number.parseFloat(tOut)
     const wageNum = Number.parseFloat(wage)
+    const servingsNum = Number.parseFloat(servings)
 
-    if (isNaN(cHomeNum) || isNaN(tHomeNum) || isNaN(tOutNum) || isNaN(wageNum)) {
+    if (isNaN(cHomeNum) || isNaN(tHomeNum) || isNaN(tOutNum) || isNaN(wageNum) || isNaN(servingsNum) || servingsNum <= 0) {
       return null
     }
 
-    // Convert minutes to hours: (minutes / 60) * wage
-    return cHomeNum + ((tHomeNum - tOutNum) / 60) * wageNum
+    // Cost per serving when cooking: C_home / N
+    // Time per serving when cooking: T_home / N
+    // Compare to eating out (1 serving): C_out, T_out
+    const costPerServing = cHomeNum / servingsNum
+    const timePerServing = tHomeNum / servingsNum
+    const timeDiffInHours = (timePerServing - tOutNum) / 60
+
+    return costPerServing + timeDiffInHours * wageNum
   }
 
   const breakEvenCost = calculateBreakEven()
@@ -106,6 +115,24 @@ export function CostCalculator() {
                     />
                   </div>
                 </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="servings" className="text-base">
+                  Number of Servings (from cooking session)
+                </Label>
+                <Input
+                  id="servings"
+                  type="number"
+                  step="0.1"
+                  min="0.1"
+                  placeholder="1.0"
+                  value={servings}
+                  onChange={(e) => setServings(e.target.value)}
+                  className="text-base"
+                />
+                <p className="text-xs text-muted-foreground">
+                  How many servings would this cooking session produce? (Assume eating out gives 1 serving)
+                </p>
               </div>
             </div>
 
@@ -211,13 +238,30 @@ export function CostCalculator() {
                 <div>
                   <p className="font-medium text-foreground">Cost to Cook at Home ($)</p>
                   <p className="text-sm">
-                    Include the cost of groceries for the meal, plus any costs associated with obtaining those groceries:
+                    Include the <strong className="text-foreground">total cost</strong> of groceries for the entire cooking session,
+                    plus any costs associated with obtaining those groceries:
                   </p>
                   <ul className="ml-4 list-disc space-y-1 text-sm">
                     <li>Grocery store prices for ingredients</li>
                     <li>Gas costs from driving to/from the grocery store</li>
                     <li>Delivery fees if using grocery delivery services</li>
                     <li>Any other transportation costs</li>
+                  </ul>
+                  <p className="text-sm mt-2">
+                    <strong className="text-foreground">Note:</strong> Enter the total cost for the entire cooking session. The
+                    calculator will divide this by the number of servings to get the cost per serving.
+                  </p>
+                </div>
+
+                <div>
+                  <p className="font-medium text-foreground">Number of Servings</p>
+                  <p className="text-sm">
+                    Select how many servings your cooking session produces. This is important because:
+                  </p>
+                  <ul className="ml-4 list-disc space-y-1 text-sm">
+                    <li>Cooking at home often produces multiple servings (e.g., 4 servings from one cooking session)</li>
+                    <li>Eating out typically gives you 1 serving</li>
+                    <li>The calculator compares cost per serving, so batch cooking becomes more valuable</li>
                   </ul>
                 </div>
 
@@ -234,13 +278,19 @@ export function CostCalculator() {
 
                 <div>
                   <p className="font-medium text-foreground">Time to Cook at Home (minutes)</p>
-                  <p className="text-sm">Account for all time spent:</p>
+                  <p className="text-sm">
+                    Account for all time spent for the <strong className="text-foreground">entire cooking session</strong>:
+                  </p>
                   <ul className="ml-4 list-disc space-y-1 text-sm">
                     <li>Time required to cook the meal</li>
                     <li>Time spent at the grocery store shopping</li>
                     <li>Time to clean dishes and put food away</li>
                     <li>Time to clean the kitchen</li>
                   </ul>
+                  <p className="text-sm mt-2">
+                    <strong className="text-foreground">Note:</strong> Enter the total time for the cooking session. The calculator
+                    will divide this by the number of servings to get the time per serving.
+                  </p>
                 </div>
 
                 <div>
@@ -336,14 +386,16 @@ export function CostCalculator() {
                 (money + value of time) for both options.
               </p>
               <p>
-                Eating out is mathematically better when the total cost of eating out is less than or equal to the total cost
-                of cooking at home:
+                Eating out is mathematically better when the total cost per serving of eating out is less than or equal to the
+                total cost per serving of cooking at home:
               </p>
               <div className="rounded-md bg-muted p-3 font-mono text-sm">
-                C<sub>out</sub> + w × T<sub>out</sub> ≤ C<sub>home</sub> + w × T<sub>home</sub>
+                C<sub>out</sub> + w × T<sub>out</sub> ≤ (C<sub>home</sub> / N) + w × (T<sub>home</sub> / N)
               </div>
               <p className="text-xs">
-                Where w is your hourly wage, C is the money cost, and T is the time cost (in minutes, converted to hours).
+                Where w is your hourly wage, C is the money cost, T is the time cost (in minutes, converted to hours), and N
+                is the number of servings produced from the cooking session. This compares one serving from eating out to one
+                serving from cooking.
               </p>
             </div>
 
@@ -354,8 +406,12 @@ export function CostCalculator() {
                 to make eating out optimal:
               </p>
               <div className="rounded-md bg-muted p-3 font-mono text-sm">
-                C<sub>out</sub>* = C<sub>home</sub> + w × (T<sub>home</sub> - T<sub>out</sub>) / 60
+                C<sub>out</sub>* = (C<sub>home</sub> / N) + w × ((T<sub>home</sub> / N) - T<sub>out</sub>) / 60
               </div>
+              <p className="text-xs mb-2">
+                Where N is the number of servings produced from the cooking session. This compares the cost per serving of
+                cooking (since cooking often produces multiple servings) to the cost of eating out (typically 1 serving).
+              </p>
               <p>
                 If your actual eating out cost is less than or equal to this break-even price, eating out is the better choice.
                 Otherwise, cooking at home is more optimal.
@@ -386,15 +442,20 @@ export function CostCalculator() {
               <h3 className="text-base font-semibold text-foreground">Example</h3>
               <p>Let's say:</p>
               <ul className="ml-4 list-disc space-y-1 text-sm">
-                <li>Cooking at home: $5 per meal, 60 minutes</li>
+                <li>Cooking at home: $20 total cost, 60 minutes, produces 4 servings</li>
                 <li>Eating out: 30 minutes (faster!)</li>
                 <li>Your wage: $30/hour</li>
               </ul>
               <p className="text-sm">
-                Break-even price = $5 + $30 × (60 - 30) / 60 = $5 + $15 = <strong className="text-foreground">$20</strong>
+                Cost per serving = $20 / 4 = $5
+                <br />
+                Time per serving = 60 / 4 = 15 minutes
+                <br />
+                Break-even price = $5 + $30 × (15 - 30) / 60 = $5 - $7.50 = <strong className="text-foreground">-$2.50</strong>
               </p>
               <p className="text-sm">
-                So if you can eat out for $20 or less, eating out is optimal. The time saved is worth the extra cost!
+                Since the break-even is negative, cooking at home is always better in this case. The batch cooking advantage
+                (4 servings) makes it much more cost-effective per serving!
               </p>
             </div>
           </div>
